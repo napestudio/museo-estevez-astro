@@ -1,0 +1,39 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap");
+@import "tailwindcss";
+@import "lenis/dist/lenis.css";
+
+@theme {
+  --color-me-red: #ff2d2d;
+  --color-me-orange: #ff7a00;
+  --font-montserrat: "Montserrat", sans-serif;
+}
+
+@layer base {
+  html {
+    font-size: 16px;
+  }
+
+  body {
+    font-family: var(--font-montserrat);
+    background-color: #000000;
+    color: #ffffff;
+    line-height: 1.5;
+    min-height: 100vh;
+  }
+}
+
+@layer utilities {
+  .container {
+    width: 90svw;
+    max-width: 1200px;
+    margin-inline: auto;
+  }
+
+  .section {
+    padding: 6rem 0;
+  }
+
+  .h-megafull {
+    height: 200svh;
+  }
+}

@@ -1,0 +1,105 @@
+---
+
+---
+
+<div class="experience-wrapper">
+  <canvas id="experience-canvas"></canvas>
+</div>
+
+<style>
+  .experience-wrapper {
+    position: fixed;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+</style>
+
+<script>
+  import * as THREE from "three";
+  import { RotatingCube } from "./RotatingCube";
+  import { Modelo } from "./Modelo";
+
+  const canvas = document.getElementById(
+    "experience-canvas",
+  ) as HTMLCanvasElement;
+  const wrapper = canvas.parentElement as HTMLDivElement;
+
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+  const scene = new THREE.Scene();
+
+  const camera = new THREE.PerspectiveCamera(
+    60,
+    wrapper.clientWidth / wrapper.clientHeight,
+    0.1,
+    200,
+  );
+  camera.position.z = 3;
+
+  const ambientLight = new THREE.AmbientLight(0xffffff, 10);
+  scene.add(ambientLight);
+
+  const directionalLight = new THREE.DirectionalLight(0xffffff, 5.5);
+  directionalLight.position.set(2, 3, 4);
+  scene.add(directionalLight);
+
+  const cube = new RotatingCube();
+  // scene.add(cube.mesh);
+
+  const modelPivot = new THREE.Group();
+  scene.add(modelPivot);
+
+  const model = new Modelo((object) => modelPivot.add(object));
+
+  let isDragging = false;
+  let prevX = 0, prevY = 0;
+
+  canvas.addEventListener("pointerdown", (e) => {
+    isDragging = true;
+    prevX = e.clientX;
+    prevY = e.clientY;
+  });
+  canvas.addEventListener("pointermove", (e) => {
+    if (!isDragging) return;
+    const dx = e.clientX - prevX;
+    const dy = e.clientY - prevY;
+    modelPivot.rotation.y += dx * 0.01;
+    modelPivot.rotation.x += dy * 0.01;
+    prevX = e.clientX;
+    prevY = e.clientY;
+  });
+  canvas.addEventListener("pointerup", () => { isDragging = false; });
+  canvas.addEventListener("pointerleave", () => { isDragging = false; });
+
+  let lastTime = performance.now();
+
+  const resizeObserver = new ResizeObserver(() => {
+    const width = wrapper.clientWidth;
+    const height = wrapper.clientHeight;
+    camera.aspect = width / height;
+    camera.updateProjectionMatrix();
+    renderer.setSize(width, height, false);
+  });
+
+  resizeObserver.observe(wrapper);
+
+  renderer.setSize(wrapper.clientWidth, wrapper.clientHeight, false);
+
+  renderer.setAnimationLoop(() => {
+    const now = performance.now();
+    const delta = (now - lastTime) / 1000;
+    lastTime = now;
+    cube.update(delta);
+    model.update(delta);
+    renderer.render(scene, camera);
+  });
+</script>
