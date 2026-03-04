@@ -19,6 +19,7 @@
     display: block;
     width: 100%;
     height: 100%;
+    touch-action: none;
   }
 </style>
 
@@ -79,6 +80,7 @@
   });
   canvas.addEventListener("pointerup", () => { isDragging = false; });
   canvas.addEventListener("pointerleave", () => { isDragging = false; });
+  canvas.addEventListener("pointercancel", () => { isDragging = false; });
 
   let lastTime = performance.now();
 
