@@ -1,11 +1,44 @@
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=PT+Mono&display=swap");
 @import "tailwindcss";
 @import "lenis/dist/lenis.css";
+
+@font-face {
+  font-family: "Helvetica";
+  src: url("/fonts/Helvetica.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Helvetica";
+  src: url("/fonts/Helvetica-Bold.woff2") format("woff2");
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Helvetica";
+  src: url("/fonts/Helvetica-Compressed.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Helvetica";
+  src: url("/fonts/Helvetica-Light.woff2") format("woff2");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
 
 @theme {
   --color-me-red: #ff2d2d;
   --color-me-orange: #ff7a00;
-  --font-montserrat: "Montserrat", sans-serif;
+  --font-helvetica: "Helvetica", sans-serif;
+  --font-pt-mono: "PT Mono", monospace;
 }
 
 @layer base {
@@ -14,9 +47,9 @@
   }
 
   body {
-    font-family: var(--font-montserrat);
-    background-color: #000000;
-    color: #ffffff;
+    font-family: var(--font-helvetica);
+    background-color: #fff;
+    color: #000;
     line-height: 1.5;
     min-height: 100vh;
   }
@@ -35,5 +68,9 @@
 
   .h-megafull {
     height: 200svh;
+  }
+
+  .font-pt-mono {
+    font-family: var(--font-pt-mono);
   }
 }

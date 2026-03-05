@@ -2,38 +2,22 @@
 
 ---
 
-<div class="experience-wrapper">
-  <canvas id="experience-canvas"></canvas>
+<div class="fixed inset-0 block w-full h-full z-50">
+  <canvas class="block w-full h-full touch-none" id="canvas"></canvas>
 </div>
-
-<style>
-  .experience-wrapper {
-    position: fixed;
-    inset: 0;
-    display: block;
-    width: 100%;
-    height: 100%;
-  }
-
-  canvas {
-    display: block;
-    width: 100%;
-    height: 100%;
-    touch-action: none;
-  }
-</style>
 
 <script>
   import * as THREE from "three";
-  import { RotatingCube } from "./RotatingCube";
   import { Modelo } from "./Modelo";
 
-  const canvas = document.getElementById(
-    "experience-canvas",
-  ) as HTMLCanvasElement;
+  const canvas = document.getElementById("canvas") as HTMLCanvasElement;
   const wrapper = canvas.parentElement as HTMLDivElement;
 
-  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+  const renderer = new THREE.WebGLRenderer({
+    canvas,
+    antialias: true,
+    alpha: true,
+  });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
   const scene = new THREE.Scene();
@@ -53,41 +37,50 @@
   directionalLight.position.set(2, 3, 4);
   scene.add(directionalLight);
 
-  const cube = new RotatingCube();
-  // scene.add(cube.mesh);
-
   const modelPivot = new THREE.Group();
   scene.add(modelPivot);
 
   const model = new Modelo((object) => modelPivot.add(object));
 
   let isDragging = false;
-  let prevX = 0, prevY = 0;
+  let prevX = 0,
+    prevY = 0;
 
-  canvas.addEventListener("pointerdown", (e) => {
+  const onPointerDown = (e: PointerEvent) => {
     isDragging = true;
     prevX = e.clientX;
     prevY = e.clientY;
-  });
-  canvas.addEventListener("pointermove", (e) => {
+  };
+  const onPointerMove = (e: PointerEvent) => {
     if (!isDragging) return;
     const dx = e.clientX - prevX;
-    const dy = e.clientY - prevY;
     modelPivot.rotation.y += dx * 0.01;
-    modelPivot.rotation.x += dy * 0.01;
     prevX = e.clientX;
-    prevY = e.clientY;
-  });
-  canvas.addEventListener("pointerup", () => { isDragging = false; });
-  canvas.addEventListener("pointerleave", () => { isDragging = false; });
-  canvas.addEventListener("pointercancel", () => { isDragging = false; });
+  };
+  const onPointerEnd = () => {
+    isDragging = false;
+  };
+
+  canvas.addEventListener("pointerdown", onPointerDown);
+  canvas.addEventListener("pointermove", onPointerMove);
+  canvas.addEventListener("pointerup", onPointerEnd);
+  canvas.addEventListener("pointerleave", onPointerEnd);
+  canvas.addEventListener("pointercancel", onPointerEnd);
+
+  let targetCameraY = 0;
+  let modelRotationX = 0;
+  const onScroll = () => {
+    targetCameraY = -window.scrollY * 0.005;
+    modelRotationX = window.scrollY * 0.001;
+  };
+  window.addEventListener("scroll", onScroll);
 
   let lastTime = performance.now();
 
   const resizeObserver = new ResizeObserver(() => {
     const width = wrapper.clientWidth;
     const height = wrapper.clientHeight;
-    camera.aspect = width / height;
+    // camera.aspect = width / height;
     camera.updateProjectionMatrix();
     renderer.setSize(width, height, false);
   });
@@ -100,8 +93,26 @@
     const now = performance.now();
     const delta = (now - lastTime) / 1000;
     lastTime = now;
-    cube.update(delta);
+    camera.position.y += targetCameraY - camera.position.y;
+    // modelPivot.rotation.x += modelRotationX - modelPivot.rotation.x;
+    camera.lookAt(0, camera.position.y, 0);
     model.update(delta);
     renderer.render(scene, camera);
   });
+
+  document.addEventListener(
+    "astro:before-swap",
+    () => {
+      canvas.removeEventListener("pointerdown", onPointerDown);
+      canvas.removeEventListener("pointermove", onPointerMove);
+      canvas.removeEventListener("pointerup", onPointerEnd);
+      canvas.removeEventListener("pointerleave", onPointerEnd);
+      canvas.removeEventListener("pointercancel", onPointerEnd);
+      window.removeEventListener("scroll", onScroll);
+      resizeObserver.disconnect();
+      renderer.setAnimationLoop(null);
+      renderer.dispose();
+    },
+    { once: true },
+  );
 </script>

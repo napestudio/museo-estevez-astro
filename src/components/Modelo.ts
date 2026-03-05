@@ -16,7 +16,8 @@ export class Modelo {
       "/models/model.glb",
       (gltf) => {
         this.object = gltf.scene;
-        this.object.scale.setScalar(0.2);
+        this.object.scale.setScalar(0.35);
+        this.object.position.set(0, -1.5, 0);
         this.object.rotation.y = Math.PI * 1.5;
         onLoad(this.object);
       },
@@ -29,7 +30,7 @@ export class Modelo {
 
   update(delta: number): void {
     if (!this.object) return;
-    this.object.rotation.x += delta * 0;
-    this.object.rotation.y += delta * 0.05;
+    // this.object.rotation.x += delta * 0;
+    // this.object.rotation.y += delta * 0.05;
   }
 }
