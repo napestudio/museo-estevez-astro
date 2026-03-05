@@ -47,7 +47,10 @@
   const modelPivot = new THREE.Group();
   scene.add(modelPivot);
 
-  const model = new Modelo((object) => modelPivot.add(object));
+  const model = new Modelo((object) => {
+    modelPivot.add(object);
+    model.resize(camera);
+  });
 
   let isDragging = false;
   let prevX = 0;
@@ -76,12 +79,10 @@
   canvas.addEventListener("pointerleave", onPointerEnd);
   canvas.addEventListener("pointercancel", onPointerEnd);
 
-  const CAMERA_TRAVEL = 4.25;
-
   const onScroll = () => {
     const maxScroll = document.body.scrollHeight - window.innerHeight;
     const scrollProgress = maxScroll > 0 ? window.scrollY / maxScroll : 0;
-    targetCameraY = -scrollProgress * CAMERA_TRAVEL;
+    targetCameraY = -scrollProgress * model.cameraTravel;
   };
 
   window.addEventListener("scroll", onScroll);
@@ -96,6 +97,7 @@
     camera.updateProjectionMatrix();
 
     renderer.setSize(width, height, false);
+    model.resize(camera);
   });
 
   resizeObserver.observe(wrapper);

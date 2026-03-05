@@ -21,7 +21,12 @@ import Image from "astro/components/Image.astro";
           />
         </div>
         <div class="overflow-hidden">
-          <div data-animate-reveal-bottom-delay>Rosario, ARG</div>
+          <div
+            class="text-[clamp(0.5rem,1vw,calc(99vw-1rem))]"
+            data-animate-reveal-bottom-delay
+          >
+            Rosario, ARG
+          </div>
         </div>
       </div>
       <div class="overflow-hidden">
@@ -32,17 +37,17 @@ import Image from "astro/components/Image.astro";
           A Naciña.
         </h1>
       </div>
-      <div class="h-[30svw]"></div>
+      <div class="h-[32svh] md:h-[30svw]"></div>
       <div>
         <div
-          class="w-full text-right font-light text-[clamp(5rem,10vw,calc(99vw-1rem))]"
+          class="w-full text-right font-light text-[clamp(4rem,10vw,calc(99vw-1rem))]"
         >
           1923
         </div>
-        <div class="flex justify-between md:flex-row flex-col">
+        <div class="flex justify-between md:flex-row flex-col gap-4">
           <div>
             <h2
-              class="text-[clamp(4rem,8vw,calc(90vw-1rem))] font-light leading-none"
+              class="text-[clamp(3.2rem,8vw,calc(90vw-1rem))] font-light leading-none"
             >
               Francisco <span
                 class="font-extrabold block text-[clamp(3rem,6vw,calc(90vw-1rem))]"
@@ -67,7 +72,7 @@ import Image from "astro/components/Image.astro";
   <style>
     @keyframes reveal-bottom {
       from {
-        transform: translateY(100%);
+        transform: translateY(150%);
       }
       to {
         transform: translateY(0%);
@@ -75,7 +80,7 @@ import Image from "astro/components/Image.astro";
     }
 
     [data-animate-reveal-bottom] {
-      transform: translateY(100%);
+      transform: translateY(150%);
       animation: reveal-bottom 700ms ease-out forwards;
       animation-delay: 400ms;
     }
