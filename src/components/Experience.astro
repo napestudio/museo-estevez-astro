@@ -3,7 +3,7 @@
 ---
 
 <div class="fixed inset-0 block w-full h-full z-50">
-  <canvas class="block w-full h-full touch-none" id="canvas"></canvas>
+  <canvas class="block w-full h-full touch-pan-y" id="canvas"></canvas>
 </div>
 
 <script>
@@ -80,7 +80,7 @@
   const resizeObserver = new ResizeObserver(() => {
     const width = wrapper.clientWidth;
     const height = wrapper.clientHeight;
-    // camera.aspect = width / height;
+    camera.aspect = width / height;
     camera.updateProjectionMatrix();
     renderer.setSize(width, height, false);
   });
