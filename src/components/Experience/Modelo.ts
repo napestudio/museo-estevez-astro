@@ -58,9 +58,6 @@ export class Modelo {
     this.introOffset = -visibleHeight;
     this.cameraTravel =
       camera.aspect >= 1 ? visibleHeight * 2.5 : visibleHeight * 1.15;
-
-    this.object.position.y =
-      this.targetY + this.introOffset * (1 - easeOutQuart(this.progress));
   }
 
   update(delta: number) {

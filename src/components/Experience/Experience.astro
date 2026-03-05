@@ -89,9 +89,14 @@
 
   let lastTime = performance.now();
 
+  let lastWidth = 0;
+
   const resizeObserver = new ResizeObserver(() => {
     const width = wrapper.clientWidth;
     const height = wrapper.clientHeight;
+
+    if (width === lastWidth) return; // iOS nav bar only changes height
+    lastWidth = width;
 
     camera.aspect = width / height;
     camera.updateProjectionMatrix();
