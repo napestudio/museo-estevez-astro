@@ -8,6 +8,7 @@
 
 <script>
   import * as THREE from "three";
+  import Stats from "three/addons/libs/stats.module.js";
   import { Modelo } from "./Modelo";
 
   const canvas = document.getElementById("canvas") as HTMLCanvasElement;
@@ -18,17 +19,23 @@
     antialias: true,
     alpha: true,
   });
+
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+  const stats = new Stats();
 
   const scene = new THREE.Scene();
 
   const camera = new THREE.PerspectiveCamera(
-    60,
+    10,
     wrapper.clientWidth / wrapper.clientHeight,
     0.1,
     200,
   );
-  camera.position.z = 3;
+
+  camera.position.z = 10;
+
+  let targetCameraY = camera.position.y;
 
   const ambientLight = new THREE.AmbientLight(0xffffff, 10);
   scene.add(ambientLight);
@@ -43,20 +50,22 @@
   const model = new Modelo((object) => modelPivot.add(object));
 
   let isDragging = false;
-  let prevX = 0,
-    prevY = 0;
+  let prevX = 0;
 
   const onPointerDown = (e: PointerEvent) => {
     isDragging = true;
     prevX = e.clientX;
-    prevY = e.clientY;
   };
+
   const onPointerMove = (e: PointerEvent) => {
     if (!isDragging) return;
+
     const dx = e.clientX - prevX;
     modelPivot.rotation.y += dx * 0.01;
+
     prevX = e.clientX;
   };
+
   const onPointerEnd = () => {
     isDragging = false;
   };
@@ -67,12 +76,14 @@
   canvas.addEventListener("pointerleave", onPointerEnd);
   canvas.addEventListener("pointercancel", onPointerEnd);
 
-  let targetCameraY = 0;
-  let modelRotationX = 0;
+  const CAMERA_TRAVEL = 4.25;
+
   const onScroll = () => {
-    targetCameraY = -window.scrollY * 0.005;
-    modelRotationX = window.scrollY * 0.001;
+    const maxScroll = document.body.scrollHeight - window.innerHeight;
+    const scrollProgress = maxScroll > 0 ? window.scrollY / maxScroll : 0;
+    targetCameraY = -scrollProgress * CAMERA_TRAVEL;
   };
+
   window.addEventListener("scroll", onScroll);
 
   let lastTime = performance.now();
@@ -80,8 +91,10 @@
   const resizeObserver = new ResizeObserver(() => {
     const width = wrapper.clientWidth;
     const height = wrapper.clientHeight;
+
     camera.aspect = width / height;
     camera.updateProjectionMatrix();
+
     renderer.setSize(width, height, false);
   });
 
@@ -93,11 +106,13 @@
     const now = performance.now();
     const delta = (now - lastTime) / 1000;
     lastTime = now;
-    camera.position.y += targetCameraY - camera.position.y;
-    // modelPivot.rotation.x += modelRotationX - modelPivot.rotation.x;
-    camera.lookAt(0, camera.position.y, 0);
+
+    camera.position.y = targetCameraY;
+
     model.update(delta);
+
     renderer.render(scene, camera);
+    stats.update();
   });
 
   document.addEventListener(
@@ -108,10 +123,14 @@
       canvas.removeEventListener("pointerup", onPointerEnd);
       canvas.removeEventListener("pointerleave", onPointerEnd);
       canvas.removeEventListener("pointercancel", onPointerEnd);
+
       window.removeEventListener("scroll", onScroll);
+
       resizeObserver.disconnect();
+
       renderer.setAnimationLoop(null);
       renderer.dispose();
+      stats.dom.remove();
     },
     { once: true },
   );

@@ -1,6 +1,8 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import Experience from "../components/Experience.astro";
+import Experience from "../components/Experience/Experience.astro";
+import logo from "../images/svg/logo-estevez.svg";
+import Image from "astro/components/Image.astro";
 ---
 
 <Layout>
@@ -10,18 +12,26 @@ import Experience from "../components/Experience.astro";
       <div
         class="flex items-center justify-between font-pt-mono font-bold w-full"
       >
-        <div>
-          <p class="leading-none">
-            MUSEO MUNICIPAL <br /> DE ARTE DECORATIVO<br /> FIRMA Y ODILO<br /> ESTEVEZ
-          </p>
+        <div class="overflow-hidden">
+          <Image
+            src={logo}
+            alt="Museo Estevez"
+            class="w-[clamp(5rem,10vw,calc(99vw-1rem))]"
+            data-animate-reveal-bottom-delay
+          />
         </div>
-        <div>Rosario, ARG</div>
+        <div class="overflow-hidden">
+          <div data-animate-reveal-bottom-delay>Rosario, ARG</div>
+        </div>
       </div>
-      <h1
-        class="font-bold whitespace-nowrap text-black text-center text-[clamp(5rem,21vw,calc(98vw-1rem))] leading-none relative"
-      >
-        A Naciña.
-      </h1>
+      <div class="overflow-hidden">
+        <h1
+          class="font-bold whitespace-nowrap my-8 text-black text-center leading-none text-[clamp(5rem,21vw,calc(98vw-1rem))] relative"
+          data-animate-reveal-bottom
+        >
+          A Naciña.
+        </h1>
+      </div>
       <div class="h-[30svw]"></div>
       <div>
         <div
@@ -54,4 +64,26 @@ import Experience from "../components/Experience.astro";
       <div class="h-screen"></div>
     </div>
   </main>
+  <style>
+    @keyframes reveal-bottom {
+      from {
+        transform: translateY(100%);
+      }
+      to {
+        transform: translateY(0%);
+      }
+    }
+
+    [data-animate-reveal-bottom] {
+      transform: translateY(100%);
+      animation: reveal-bottom 700ms ease-out forwards;
+      animation-delay: 400ms;
+    }
+    [data-animate-reveal-bottom-delay] {
+      animation: reveal-bottom 700ms ease-out forwards;
+      transform: translateY(100%);
+      animation-delay: 400ms;
+      animation-duration: 600ms;
+    }
+  </style>
 </Layout>
