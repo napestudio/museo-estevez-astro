@@ -48,7 +48,7 @@ export class Modelo {
     const visibleHeight =
       2 * Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)) * dist;
 
-    const coverage = camera.aspect >= 1 ? 0.85 : 0.35;
+    const coverage = camera.aspect >= 1 ? 0.75 : 0.45;
     this.object.scale.setScalar(
       (visibleHeight * coverage) / this.intrinsicHeight,
     );
