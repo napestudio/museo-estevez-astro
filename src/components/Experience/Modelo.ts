@@ -31,7 +31,7 @@ export class Modelo {
         const bbox = new THREE.Box3().setFromObject(model);
         this.intrinsicHeight = bbox.max.y - bbox.min.y;
 
-        model.rotation.y = Math.PI * 1.5;
+        model.rotation.y = Math.PI / 1.7;
 
         this.object = model;
 
