@@ -19,7 +19,7 @@
 }
 
 @font-face {
-  font-family: "Helvetica";
+  font-family: "Helvetica Compressed";
   src: url("/fonts/Helvetica-Compressed.woff2") format("woff2");
   font-weight: normal;
   font-style: normal;
@@ -27,9 +27,9 @@
 }
 
 @font-face {
-  font-family: "Helvetica";
+  font-family: "Helvetica Light";
   src: url("/fonts/Helvetica-Light.woff2") format("woff2");
-  font-weight: 300;
+  font-weight: normal;
   font-style: normal;
   font-display: swap;
 }
@@ -38,6 +38,8 @@
   --color-me-red: #ff2d2d;
   --color-me-orange: #ff7a00;
   --font-helvetica: "Helvetica", sans-serif;
+  --font-helvetica-light: "Helvetica Light", sans-serif;
+  --font-helvetica-compressed: "Helvetica Compressed", sans-serif;
   --font-pt-mono: "PT Mono", monospace;
 }
 
@@ -68,6 +70,18 @@
 
   .h-megafull {
     height: 200svh;
+  }
+
+  .font-helvetica {
+    font-family: var(--font-helvetica);
+  }
+
+  .font-helvetica-light {
+    font-family: var(--font-helvetica-light);
+  }
+
+  .font-helvetica-compressed {
+    font-family: var(--font-helvetica-compressed);
   }
 
   .font-pt-mono {

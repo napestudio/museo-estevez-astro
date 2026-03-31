@@ -64,7 +64,7 @@
     if (!isDragging) return;
 
     const dx = e.clientX - prevX;
-    modelPivot.rotation.y += dx * 0.01;
+    modelPivot.rotation.y += dx * 0.05;
 
     prevX = e.clientX;
   };
@@ -114,7 +114,7 @@
     const delta = (now - lastTime) / 1000;
     lastTime = now;
 
-    camera.position.y = targetCameraY;
+    camera.position.y = targetCameraY * 2.5;
 
     model.update(delta);
 
