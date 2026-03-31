@@ -4,15 +4,27 @@ import Paragraph from "./Ui/Paragraph.astro";
 
 const detatailImage2 =
   "https://res.cloudinary.com/dujkztmkx/image/upload/v1774922311/Detalle2_jbyhjn.jpg";
+const bioImage =
+  "https://res.cloudinary.com/dujkztmkx/image/upload/v1774994724/FRANCISCO-ASOREY_xkmyjx.jpg";
 ---
 
 <section class="min-h-screen text-black bg-white py-24 z-20 relative">
   <div class="container mx-auto">
     <div class="grid grid-cols-1 md:grid-cols-2 items-start gap-6">
-      <div class="space-y-8" data-biography-title>
-        <h2 class="text-[clamp(2.2rem,7.8vw,90px)] font-light leading-none">
+      <div class="space-y-8 h-full" data-biography-title>
+        <h2
+          class="text-[clamp(2.2rem,7.8vw,90px)] font-light leading-none 2xl:mb-24"
+        >
           FRANCISCO <span class="font-bold inline">ASOREY</span>
         </h2>
+        <div class="max-w-[300px]">
+          <Image
+            src={bioImage}
+            alt="Fotografía en blanco y negro  de Francisco Asorey"
+            width={645}
+            height={985}
+          />
+        </div>
       </div>
       <div>
         <div class="space-y-6">
@@ -56,8 +68,19 @@ const detatailImage2 =
       ScrollTrigger.create({
         trigger: biographyTitle,
         start: "top top",
-        end: "center -60%",
+        end: "70% center",
         pin: true,
+
+        pinSpacing: false,
+      });
+    });
+    mm.add("(min-width: 1800px)", () => {
+      ScrollTrigger.create({
+        trigger: biographyTitle,
+        start: "top top",
+        end: "80% center",
+        pin: true,
+
         pinSpacing: false,
       });
     });

@@ -5,7 +5,7 @@
 <section class="text-white bg-[#15212a] py-24">
   <div class="container mx-auto">
     <div class="grid grid-cols-12 w-full text-sm">
-      <div class="col-span-6 space-y-4">
+      <div class="col-span-6 space-y-4" data-credits-left>
         <div>
           <div class="font-bold">
             Investigación, texto y conservación de la obra
@@ -30,7 +30,7 @@
           </div>
         </div>
       </div>
-      <div class="col-start-10 col-span-3 space-y-4">
+      <div class="col-start-10 col-span-3 space-y-4" data-credits-right>
         <div>
           <div class="font-semibold">Fotografía</div>
           <div class="font-light">Rodrigo Roger</div>
@@ -47,3 +47,42 @@
     </div>
   </div>
 </section>
+<script>
+  import { gsap, ScrollTrigger } from "../lib/gsap";
+  const creditsLeft = document.querySelector<HTMLElement>(
+    "[data-credits-left]",
+  );
+  const creditsRight = document.querySelector<HTMLElement>(
+    "[data-credits-right]",
+  );
+  const mainEl = document.querySelector<HTMLElement>("main");
+
+  if (mainEl) {
+    const tl = gsap.timeline({ paused: true });
+
+    if (creditsLeft && creditsRight) {
+      tl.from(creditsLeft, {
+        x: -40,
+        opacity: 0,
+        ease: "power2.out",
+        duration: 1,
+      }).from(
+        creditsRight,
+        {
+          x: 40,
+          opacity: 0,
+          ease: "power2.out",
+          duration: 1,
+        },
+        "<",
+      );
+    }
+
+    ScrollTrigger.create({
+      trigger: mainEl,
+      start: "bottom 55%",
+      animation: tl,
+      scrub: true,
+    });
+  }
+</script>

@@ -3,9 +3,11 @@ import BigImage from "../components/BigImage.astro";
 import BiographySection from "../components/BiographySection.astro";
 import CreditsSection from "../components/CreditsSection.astro";
 import Experience from "../components/Experience/Experience.astro";
+import Footer from "../components/Footer.astro";
 import Hero from "../components/Hero.astro";
 import HistorySection from "../components/HistorySection.astro";
 import MaterialsSection from "../components/MaterialsSection.astro";
+import EstevezSvg from "../components/Ui/EstevezSvg.astro";
 import Layout from "../layouts/Layout.astro";
 ---
 
@@ -18,15 +20,5 @@ import Layout from "../layouts/Layout.astro";
     <BiographySection />
     <BigImage />
   </main>
-  <footer
-    class="text-white bg-[#15212a] w-full overflow-hidden fixed bottom-0 z-10"
-    data-footer
-  >
-    <CreditsSection />
-    <div
-      class="text-[clamp(5rem,26vw,calc(98vw-1rem))] tracking-tight leading-none font-pt-mono -translate-x-10"
-    >
-      ESTEVEZ
-    </div>
-  </footer>
+  <Footer />
 </Layout>

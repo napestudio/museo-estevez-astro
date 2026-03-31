@@ -1,0 +1,36 @@
+---
+import CreditsSection from "./CreditsSection.astro";
+import EstevezSvg from "./Ui/EstevezSvg.astro";
+---
+
+<footer
+  class="text-white bg-[#15212a] w-full overflow-hidden fixed bottom-0 z-10"
+  data-footer
+>
+  <CreditsSection />
+  <div data-estevez-svg class="overflow-hidden">
+    <EstevezSvg />
+  </div>
+</footer>
+
+<script>
+  import { gsap, ScrollTrigger } from "../lib/gsap";
+  const estevezSvg = document.querySelector<HTMLElement>("[data-estevez-svg]");
+  const mainEl = document.querySelector<HTMLElement>("main");
+
+  if (estevezSvg && mainEl) {
+    const tl = gsap.timeline({ paused: true }).from(estevezSvg, {
+      y: 100,
+      //   opacity: 0,
+      ease: "power2.out",
+      duration: 1.5,
+    });
+
+    ScrollTrigger.create({
+      trigger: mainEl,
+      start: "bottom 90%",
+      animation: tl,
+      scrub: true,
+    });
+  }
+</script>
