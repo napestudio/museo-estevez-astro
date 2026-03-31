@@ -2,7 +2,7 @@
 
 ---
 
-<div class="fixed inset-0 block w-full h-full z-50">
+<div class="fixed inset-0 block w-full h-full z-30">
   <canvas class="block w-full h-full touch-pan-y" id="canvas"></canvas>
 </div>
 
@@ -50,7 +50,10 @@
   const model = new Modelo((object) => {
     modelPivot.add(object);
     model.resize(camera);
+    onScroll(); // sync camera after cameraTravel is set
   });
+
+  const AUTO_ROTATE_SPEED = 0.3; // radians per second
 
   let isDragging = false;
   let prevX = 0;
@@ -115,6 +118,10 @@
     lastTime = now;
 
     camera.position.y = targetCameraY * 2.5;
+
+    if (!isDragging) {
+      modelPivot.rotation.y += AUTO_ROTATE_SPEED * delta;
+    }
 
     model.update(delta);
 

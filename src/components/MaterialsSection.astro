@@ -7,13 +7,16 @@ const detailImage =
 ---
 
 <section
-  class="min-h-screen text-white bg-[#15212a] py-24"
+  class="min-h-screen text-white bg-[#15212a] py-24 z-20 relative"
   data-materials-container
 >
   <div class="container mx-auto">
     <div class="grid grid-cols-1 md:grid-cols-5 items-start gap-9">
       <div class="space-y-8 md:col-span-3">
-        <h2 class="text-[clamp(2.2rem,4.5vw,calc(90vw-1rem))] leading-none">
+        <h2
+          class="text-[clamp(2.2rem,4.5vw,75px)] leading-none"
+          data-materials-title
+        >
           TÉCNICAS Y <span class="font-bold inline">MATERIALIDADES</span>
         </h2>
         <div class="flex flex-col gap-4">
@@ -51,14 +54,40 @@ const detailImage =
   const materialsImage = document.querySelector<HTMLElement>(
     "[data-materials-image]",
   );
+  const materialsTitle = document.querySelector<HTMLElement>(
+    "[data-materials-title]",
+  );
 
   if (materialsImage) {
+    const mm = gsap.matchMedia();
+    mm.add("(min-width: 768px)", () => {
+      ScrollTrigger.create({
+        trigger: materialsImage,
+        start: "top 10%",
+        end: "bottom top",
+        pin: true,
+        pinSpacing: false,
+      });
+    });
+  }
+
+  if (materialsTitle) {
+    const split = new SplitText(materialsTitle, { type: "lines" });
+
+    const tl = gsap.timeline({ paused: true }).from(split.lines, {
+      y: 50,
+      opacity: 0,
+      stagger: 0.05,
+      duration: 0.6,
+      ease: "power2.out",
+    });
+
     ScrollTrigger.create({
-      trigger: materialsImage,
-      start: "top 10%",
-      end: "bottom top",
-      pin: true,
-      pinSpacing: false,
+      trigger: materialsTitle,
+      start: "center bottom",
+      end: "center center",
+      animation: tl,
+      scrub: true,
     });
   }
 </script>

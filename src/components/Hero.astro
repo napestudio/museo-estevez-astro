@@ -5,8 +5,7 @@ const logoEstevez =
   "https://res.cloudinary.com/dujkztmkx/image/upload/v1774922671/IMG_6848_sjibol.png";
 ---
 
-<div class="relative overflow-visible">
-  <Experience />
+<div class="overflow-visible bg-white relative z-20">
   <div class="z-50 px-[3vw] py-[2vw]">
     <div
       class="flex items-center justify-between font-pt-mono font-bold w-full"
@@ -41,3 +40,25 @@ const logoEstevez =
     <div class="h-[32svh] md:h-[30svw]"></div>
   </div>
 </div>
+<style>
+  @keyframes reveal-bottom {
+    from {
+      transform: translateY(150%);
+    }
+    to {
+      transform: translateY(0%);
+    }
+  }
+
+  [data-animate-reveal-bottom] {
+    transform: translateY(150%);
+    animation: reveal-bottom 700ms ease-out forwards;
+    animation-delay: 400ms;
+  }
+  [data-animate-reveal-bottom-delay] {
+    animation: reveal-bottom 700ms ease-out forwards;
+    transform: translateY(100%);
+    animation-delay: 400ms;
+    animation-duration: 600ms;
+  }
+</style>

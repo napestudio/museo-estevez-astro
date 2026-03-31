@@ -2,7 +2,7 @@
 import Paragraph from "./Ui/Paragraph.astro";
 ---
 
-<section>
+<section class="bg-white relative z-30">
   <div
     class="container mx-auto flex justify-between md:flex-row flex-col gap-4 pb-24"
   >
@@ -72,12 +72,15 @@ import Paragraph from "./Ui/Paragraph.astro";
       });
     });
 
-    ScrollTrigger.create({
-      trigger: historyTitleContainer,
-      start: "top top",
-      end: "80% top",
-      pin: true,
-      pinSpacing: false,
+    const mm = gsap.matchMedia();
+    mm.add("(min-width: 768px)", () => {
+      ScrollTrigger.create({
+        trigger: historyTitleContainer,
+        start: "top top",
+        end: "80% top",
+        pin: true,
+        pinSpacing: false,
+      });
     });
   }
 </script>

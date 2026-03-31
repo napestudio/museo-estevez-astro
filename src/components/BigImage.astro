@@ -5,7 +5,7 @@ const bigImage =
   "https://res.cloudinary.com/dujkztmkx/image/upload/v1774922643/Detalle1_ulzmsf.jpg";
 ---
 
-<section>
+<section id="big-image-section" class="relative z-50">
   <Image
     src={bigImage}
     class="w-svw h-auto"
@@ -14,3 +14,17 @@ const bigImage =
     alt=""
   />
 </section>
+
+<script>
+  const section = document.getElementById("big-image-section");
+  const footer = document.querySelector("[data-footer]");
+
+  function updateMargin() {
+    if (section && footer) {
+      section.style.marginBottom = footer.getBoundingClientRect().height + "px";
+    }
+  }
+
+  updateMargin();
+  window.addEventListener("resize", updateMargin);
+</script>

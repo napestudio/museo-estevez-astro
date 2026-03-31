@@ -2,6 +2,7 @@
 import BigImage from "../components/BigImage.astro";
 import BiographySection from "../components/BiographySection.astro";
 import CreditsSection from "../components/CreditsSection.astro";
+import Experience from "../components/Experience/Experience.astro";
 import Hero from "../components/Hero.astro";
 import HistorySection from "../components/HistorySection.astro";
 import MaterialsSection from "../components/MaterialsSection.astro";
@@ -10,40 +11,22 @@ import Layout from "../layouts/Layout.astro";
 
 <Layout>
   <main class="bg-white">
+    <Experience />
     <Hero />
     <HistorySection />
     <MaterialsSection />
     <BiographySection />
     <BigImage />
-    <CreditsSection />
   </main>
-  <footer class="text-white bg-[#15212a] overflow-hidden -mt-30">
+  <footer
+    class="text-white bg-[#15212a] w-full overflow-hidden fixed bottom-0 z-10"
+    data-footer
+  >
+    <CreditsSection />
     <div
-      class="text-[clamp(5rem,26vw,calc(98vw-1rem))] tracking-tight leading-none font-pt-mono -translate-x-10 translate-y-48"
+      class="text-[clamp(5rem,26vw,calc(98vw-1rem))] tracking-tight leading-none font-pt-mono -translate-x-10"
     >
       ESTEVEZ
     </div>
   </footer>
 </Layout>
-<style>
-  @keyframes reveal-bottom {
-    from {
-      transform: translateY(150%);
-    }
-    to {
-      transform: translateY(0%);
-    }
-  }
-
-  [data-animate-reveal-bottom] {
-    transform: translateY(150%);
-    animation: reveal-bottom 700ms ease-out forwards;
-    animation-delay: 400ms;
-  }
-  [data-animate-reveal-bottom-delay] {
-    animation: reveal-bottom 700ms ease-out forwards;
-    transform: translateY(100%);
-    animation-delay: 400ms;
-    animation-duration: 600ms;
-  }
-</style>

@@ -6,7 +6,7 @@ const detatailImage2 =
   "https://res.cloudinary.com/dujkztmkx/image/upload/v1774922311/Detalle2_jbyhjn.jpg";
 ---
 
-<section class="min-h-screen text-black bg-white py-24">
+<section class="min-h-screen text-black bg-white py-24 z-20 relative">
   <div class="container mx-auto">
     <div class="grid grid-cols-1 md:grid-cols-2 items-start gap-6">
       <div class="space-y-8" data-biography-title>
@@ -45,19 +45,21 @@ const detatailImage2 =
   </div>
 </section>
 <script>
-  import { gsap, ScrollTrigger, SplitText } from "../lib/gsap";
+  import { gsap, ScrollTrigger } from "../lib/gsap";
   const biographyTitle = document.querySelectorAll<HTMLElement>(
     "[data-biography-title]",
   );
 
   if (biographyTitle) {
-    ScrollTrigger.create({
-      trigger: biographyTitle,
-      start: "top top",
-      end: "80% top",
-      markers: true,
-      pin: true,
-      pinSpacing: false,
+    const mm = gsap.matchMedia();
+    mm.add("(min-width: 768px)", () => {
+      ScrollTrigger.create({
+        trigger: biographyTitle,
+        start: "top top",
+        end: "center -60%",
+        pin: true,
+        pinSpacing: false,
+      });
     });
   }
 </script>
