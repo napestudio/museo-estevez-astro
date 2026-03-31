@@ -1,0 +1,43 @@
+---
+import Experience from "../components/Experience/Experience.astro";
+import Image from "astro/components/Image.astro";
+const logoEstevez =
+  "https://res.cloudinary.com/dujkztmkx/image/upload/v1774922671/IMG_6848_sjibol.png";
+---
+
+<div class="relative overflow-visible">
+  <Experience />
+  <div class="z-50 px-[3vw] py-[2vw]">
+    <div
+      class="flex items-center justify-between font-pt-mono font-bold w-full"
+    >
+      <div class="overflow-hidden">
+        <Image
+          src={logoEstevez}
+          alt="Museo Estevez"
+          class="w-[clamp(5rem,10vw,calc(99vw-1rem))]"
+          width={948}
+          height={682}
+          data-animate-reveal-bottom-delay
+        />
+      </div>
+      <div class="overflow-hidden">
+        <div
+          class="text-[clamp(0.5rem,1vw,calc(99vw-1rem))]"
+          data-animate-reveal-bottom-delay
+        >
+          Rosario, ARG
+        </div>
+      </div>
+    </div>
+    <div class="overflow-hidden">
+      <h1
+        class="font-bold whitespace-nowrap my-8 text-black text-center leading-none text-[clamp(5rem,21vw,calc(98vw-1rem))] relative"
+        data-animate-reveal-bottom
+      >
+        A Naciña.
+      </h1>
+    </div>
+    <div class="h-[32svh] md:h-[30svw]"></div>
+  </div>
+</div>

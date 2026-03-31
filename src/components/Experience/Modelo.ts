@@ -54,10 +54,10 @@ export class Modelo {
     );
 
     this.targetY =
-      camera.aspect >= 1 ? -visibleHeight * 0.42 : -visibleHeight * -0.15;
+      camera.aspect >= 1 ? -visibleHeight * 0.52 : -visibleHeight * -0.15;
     this.introOffset = -visibleHeight;
     this.cameraTravel =
-      camera.aspect >= 1 ? visibleHeight * 2.5 : visibleHeight * 1.15;
+      camera.aspect >= 1 ? visibleHeight * 3 : visibleHeight * 1.15;
   }
 
   update(delta: number) {

@@ -1,0 +1,63 @@
+---
+import Image from "astro/components/Image.astro";
+import Paragraph from "./Ui/Paragraph.astro";
+
+const detatailImage2 =
+  "https://res.cloudinary.com/dujkztmkx/image/upload/v1774922311/Detalle2_jbyhjn.jpg";
+---
+
+<section class="min-h-screen text-black bg-white py-24">
+  <div class="container mx-auto">
+    <div class="grid grid-cols-1 md:grid-cols-2 items-start gap-6">
+      <div class="space-y-8" data-biography-title>
+        <h2 class="text-[clamp(2.2rem,7.8vw,90px)] font-light leading-none">
+          FRANCISCO <span class="font-bold inline">ASOREY</span>
+        </h2>
+      </div>
+      <div>
+        <div class="space-y-6">
+          <Image
+            src={detatailImage2}
+            alt={"Detalle de la obra"}
+            width={1900}
+            height={1266}
+            class="h-64 object-cover object-top"
+          />
+          <div class="flex flex-col gap-8">
+            <Paragraph>
+              Francisco Asorey (Cambados, 1889 – Santiago de Compostela, 1961)
+              fue uno de los escultores más destacados de Galicia durante el
+              siglo XX. Desde muy joven manifestó un fuerte interés por el
+              dibujo y la talla en madera.
+            </Paragraph>
+            <Paragraph>
+              A lo largo de su carrera desarrolló diversas obras profundamente
+              vinculadas con la identidad cultural gallega, abordando temas
+              relacionados con la vida popular, la religiosidad y la tradición.
+              Con el tiempo se estableció en Santiago de Compostela, desde donde
+              consolidó su trayectoria artística y obtuvo reconocimiento tanto
+              en Galicia como en el resto de España.
+            </Paragraph>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<script>
+  import { gsap, ScrollTrigger, SplitText } from "../lib/gsap";
+  const biographyTitle = document.querySelectorAll<HTMLElement>(
+    "[data-biography-title]",
+  );
+
+  if (biographyTitle) {
+    ScrollTrigger.create({
+      trigger: biographyTitle,
+      start: "top top",
+      end: "80% top",
+      markers: true,
+      pin: true,
+      pinSpacing: false,
+    });
+  }
+</script>

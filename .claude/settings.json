@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//c/Users/renzo/AppData/Local/Temp/claude/c--dev-museo-estevez/tasks/**)"
+    ]
+  }
+}

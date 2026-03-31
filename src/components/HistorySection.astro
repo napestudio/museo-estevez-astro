@@ -1,0 +1,83 @@
+---
+import Paragraph from "./Ui/Paragraph.astro";
+---
+
+<section>
+  <div
+    class="container mx-auto flex justify-between md:flex-row flex-col gap-4 pb-24"
+  >
+    <div data-history-title-container>
+      <h2
+        class="text-[clamp(2.2rem,8vw,120px)] font-extrabold tracking-tight leading-none"
+        data-history-title
+      >
+        HISTORIA
+      </h2>
+      <div
+        class="w-full text-left font-light leading-none text-[clamp(4rem,3vw,110px)]"
+        data-history-title
+      >
+        A Naiciña (1922)
+      </div>
+    </div>
+    <div class="md:w-1/2 flex flex-col gap-4 py-2">
+      <Paragraph>
+        Naiciña (1922) representa a una madre con su hijo en brazos, ambos
+        vestidos con traje popular gallego. Las figuras miran al frente,
+        evocando la frontalidad característica de las vírgenes románicas.
+      </Paragraph>
+      <Paragraph>
+        La base de la escultura, semejante a un tronco de árbol, refuerza la
+        idea simbólica de la madre como representación de la tierra y de la
+        vida. En este sentido, la obra puede interpretarse como una alegoría de
+        Galicia como madre protectora.
+      </Paragraph>
+      <Paragraph>
+        Destaca la policromía característica de Asorey, que realza la madera sin
+        ocultarla, así como la incorporación de elementos metálicos, como la
+        vieira que sostiene el niño con la imagen de Santiago Apóstol a caballo.
+        La escultura fue presentada en la Exposición Nacional de Bellas Artes de
+        1922, donde despertó gran admiración entre el público y la crítica.
+      </Paragraph>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { gsap, ScrollTrigger, SplitText } from "../lib/gsap";
+  const historyTitle = document.querySelectorAll<HTMLElement>(
+    "[data-history-title]",
+  );
+  const historyTitleContainer = document.querySelector<HTMLElement>(
+    "[data-history-title-container]",
+  );
+  if (historyTitleContainer && historyTitle) {
+    historyTitle.forEach((el) => {
+      const split = new SplitText(el, { type: "lines" });
+
+      const tl = gsap.timeline({ paused: true }).from(split.lines, {
+        y: 50,
+        opacity: 0,
+        stagger: 0.05,
+        duration: 0.6,
+        ease: "power2.out",
+      });
+
+      ScrollTrigger.create({
+        trigger: el,
+        start: "center bottom",
+        end: "center center",
+        animation: tl,
+        scrub: true,
+      });
+    });
+
+    ScrollTrigger.create({
+      trigger: historyTitleContainer,
+      start: "top top",
+      end: "80% top",
+      pin: true,
+      pinSpacing: false,
+    });
+  }
+</script>

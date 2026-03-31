@@ -1,0 +1,42 @@
+---
+import type { HTMLAttributes } from "astro/types";
+
+type Props = HTMLAttributes<"p">;
+
+const { class: className = "", ...rest } = Astro.props;
+const defaultClass =
+  "text-[clamp(1rem,2vw,30px)] font-helvetica text-justify text-pretty font-light";
+---
+
+<p
+  data-animate-paragraph
+  class={`${defaultClass} ${className}`.trim()}
+  {...rest}
+>
+  <slot />
+</p>
+
+<script>
+  import { gsap, ScrollTrigger, SplitText } from "../../lib/gsap";
+
+  document
+    .querySelectorAll<HTMLElement>("[data-animate-paragraph]")
+    .forEach((el) => {
+      const split = new SplitText(el, { type: "lines" });
+
+      const tl = gsap.timeline({ paused: true }).from(split.lines, {
+        opacity: 0,
+        stagger: 0.05,
+        duration: 0.6,
+        ease: "power2.out",
+      });
+
+      ScrollTrigger.create({
+        trigger: el,
+        start: "center bottom",
+        end: "center center",
+        animation: tl,
+        scrub: true,
+      });
+    });
+</script>

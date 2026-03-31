@@ -1,0 +1,64 @@
+---
+import Image from "astro/components/Image.astro";
+import Paragraph from "./Ui/Paragraph.astro";
+
+const detailImage =
+  "https://res.cloudinary.com/dujkztmkx/image/upload/v1774921589/Detalle3_kpc5ra.jpg";
+---
+
+<section
+  class="min-h-screen text-white bg-[#15212a] py-24"
+  data-materials-container
+>
+  <div class="container mx-auto">
+    <div class="grid grid-cols-1 md:grid-cols-5 items-start gap-9">
+      <div class="space-y-8 md:col-span-3">
+        <h2 class="text-[clamp(2.2rem,4.5vw,calc(90vw-1rem))] leading-none">
+          TÉCNICAS Y <span class="font-bold inline">MATERIALIDADES</span>
+        </h2>
+        <div class="flex flex-col gap-4">
+          <Paragraph>
+            Asorey dominó distintos materiales escultóricos, como la piedra, el
+            bronce y la madera. Entre las maderas que utilizaba, el castaño era
+            una de sus preferidas.
+          </Paragraph>
+          <Paragraph>
+            Desarrolló una técnica particular de policromía destinada a resaltar
+            la materialidad de la madera. Para ello intervenía previamente la
+            superficie con herramientas punzantes y luego aplicaba el color
+            mezclado con aglutinantes como miel, huevo o resina, permitiendo que
+            el pigmento penetrara en el material y se integrara con él.
+          </Paragraph>
+          <Paragraph>
+            Entre sus aportes más innovadores se encuentra la incorporación de
+            elementos metálicos en esculturas de madera, recurso que le permitía
+            generar contrastes de textura y reforzar el realismo de sus
+            composiciones.
+          </Paragraph>
+        </div>
+      </div>
+      <div class="md:grid-col-2 md:col-span-2" data-materials-image>
+        <div>
+          <Image src={detailImage} alt={"a"} width={1900} height={1266} />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { gsap, ScrollTrigger, SplitText } from "../lib/gsap";
+  const materialsImage = document.querySelector<HTMLElement>(
+    "[data-materials-image]",
+  );
+
+  if (materialsImage) {
+    ScrollTrigger.create({
+      trigger: materialsImage,
+      start: "top 10%",
+      end: "bottom top",
+      pin: true,
+      pinSpacing: false,
+    });
+  }
+</script>
