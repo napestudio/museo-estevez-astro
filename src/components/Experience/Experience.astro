@@ -117,7 +117,12 @@
     const delta = (now - lastTime) / 1000;
     lastTime = now;
 
-    camera.position.y = targetCameraY * 2.5;
+    const LERP_SPEED = 15;
+    camera.position.y = THREE.MathUtils.lerp(
+      camera.position.y,
+      targetCameraY * 2.5,
+      1 - Math.exp(-LERP_SPEED * delta),
+    );
 
     if (!isDragging) {
       modelPivot.rotation.y += AUTO_ROTATE_SPEED * delta;
