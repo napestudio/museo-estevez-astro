@@ -2,6 +2,7 @@
 @import "tailwindcss";
 @import "lenis/dist/lenis.css";
 
+
 @font-face {
   font-family: "Helvetica";
   src: url("/fonts/Helvetica.woff2") format("woff2");

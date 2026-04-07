@@ -8,9 +8,9 @@
 >
   <div
     id="loader-counter"
-    class="font-pt-mono font-bold text-black text-[clamp(8rem,18vw,68rem)] leading-none"
+    class="font-pt-mono font-bold text-black text-[clamp(8rem,28vw,68rem)] leading-none -mb-15"
   >
-    100
+    0
   </div>
 </div>
 
@@ -22,19 +22,9 @@
 
   const obj = { value: 0 };
 
-  gsap.fromTo(
-    counter,
-    { scaleY: 0.05 },
-    {
-      scaleY: window.innerHeight / counter.getBoundingClientRect().height,
-      duration: 1.5,
-      ease: "power2.out",
-      transformOrigin: "bottom right",
-    },
-  );
-
   const updateCounter = () => {
     counter.textContent = Math.floor(obj.value).toString();
+    gsap.set(counter, { y: -(obj.value / 100) * window.innerHeight * 0.5 });
   };
 
   // Baseline: animate 0 → 80 over 2.5s in case XHR total is unavailable
