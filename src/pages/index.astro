@@ -9,10 +9,12 @@ import HistorySection from "../components/HistorySection.astro";
 import MaterialsSection from "../components/MaterialsSection.astro";
 import EstevezSvg from "../components/Ui/EstevezSvg.astro";
 import Layout from "../layouts/Layout.astro";
+import Loader from "../components/Loader.astro";
 ---
 
 <Layout>
-  <main class="bg-white">
+  <Loader />
+  <main class="bg-white overflow-hidden">
     <Experience />
     <Hero />
     <HistorySection />

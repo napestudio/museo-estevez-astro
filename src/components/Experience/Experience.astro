@@ -47,10 +47,22 @@
   const modelPivot = new THREE.Group();
   scene.add(modelPivot);
 
-  const model = new Modelo((object) => {
-    modelPivot.add(object);
-    model.resize(camera);
-    onScroll(); // sync camera after cameraTravel is set
+  const model = new Modelo(
+    (object) => {
+      modelPivot.add(object);
+      model.resize(camera);
+      onScroll(); // sync camera after cameraTravel is set
+      window.dispatchEvent(new CustomEvent("model:loaded"));
+    },
+    (progress) => {
+      window.dispatchEvent(
+        new CustomEvent("model:progress", { detail: { progress } }),
+      );
+    },
+  );
+
+  window.addEventListener("loader:done", () => model.startIntro(), {
+    once: true,
   });
 
   const AUTO_ROTATE_SPEED = 0.3; // radians per second
@@ -117,7 +129,7 @@
     const delta = (now - lastTime) / 1000;
     lastTime = now;
 
-    const LERP_SPEED = 15;
+    const LERP_SPEED = 20;
     camera.position.y = THREE.MathUtils.lerp(
       camera.position.y,
       targetCameraY * 2.5,

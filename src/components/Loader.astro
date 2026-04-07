@@ -1,0 +1,89 @@
+---
+
+---
+
+<div
+  id="loader"
+  class="fixed inset-0 z-100 bg-white flex items-end justify-end"
+>
+  <div
+    id="loader-counter"
+    class="font-pt-mono font-bold text-black text-[clamp(3rem,18vw,68rem)] leading-none"
+  >
+    100
+  </div>
+</div>
+
+<script>
+  import { gsap } from "../lib/gsap";
+
+  const loader = document.getElementById("loader") as HTMLDivElement;
+  const counter = document.getElementById("loader-counter") as HTMLSpanElement;
+
+  const obj = { value: 0 };
+
+  gsap.fromTo(
+    counter,
+    { scaleY: 0.05 },
+    {
+      scaleY: window.innerHeight / counter.getBoundingClientRect().height,
+      duration: 1.5,
+      ease: "power2.out",
+      transformOrigin: "bottom right",
+    },
+  );
+
+  const updateCounter = () => {
+    counter.textContent = Math.floor(obj.value).toString();
+  };
+
+  // Baseline: animate 0 → 80 over 2.5s in case XHR total is unavailable
+  const baselineAnim = gsap.to(obj, {
+    value: 80,
+    duration: 2.5,
+    ease: "power1.inOut",
+    onUpdate: updateCounter,
+  });
+
+  window.addEventListener("model:progress", (e) => {
+    const target =
+      (e as CustomEvent<{ progress: number }>).detail.progress * 95;
+    if (target > obj.value) {
+      gsap.to(obj, {
+        value: target,
+        duration: 0.3,
+        ease: "none",
+        overwrite: "auto",
+        onUpdate: updateCounter,
+      });
+    }
+  });
+
+  window.addEventListener(
+    "model:loaded",
+    () => {
+      baselineAnim.kill();
+      gsap.to(obj, {
+        value: 100,
+        duration: 0.4,
+        ease: "power2.out",
+        overwrite: true,
+        onUpdate: updateCounter,
+        onComplete: () => {
+          gsap.to(loader, {
+            yPercent: -100,
+            duration: 0.8,
+            ease: "power3.inOut",
+            delay: 0.2,
+            onComplete: () => {
+              document.body.classList.remove("overflow-hidden");
+              window.dispatchEvent(new CustomEvent("loader:done"));
+              loader.remove();
+            },
+          });
+        },
+      });
+    },
+    { once: true },
+  );
+</script>
