@@ -2,19 +2,26 @@ import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { DRACOLoader } from "three/addons/loaders/DRACOLoader.js";
 import * as THREE from "three";
 
-const INTRO_DURATION = 1.2;
+const INTRO_DURATION = 1.25;
 
 const easeOutQuart = (t: number) => 1 - Math.pow(1 - t, 4);
 
 export class Modelo {
   object: THREE.Object3D | null = null;
   private progress = 0;
+  private introEnabled = false;
+  private delayRemaining = 0;
+  private rotationDelayRemaining = 0;
+  private _rotationReady = false;
   private intrinsicHeight: number | null = null;
   private targetY = 0;
   private introOffset = 0;
   cameraTravel = 0;
 
-  constructor(onLoad: (object: THREE.Object3D) => void) {
+  constructor(
+    onLoad: (object: THREE.Object3D) => void,
+    onProgress?: (progress: number) => void,
+  ) {
     const dracoLoader = new DRACOLoader();
     dracoLoader.setDecoderPath(
       "https://www.gstatic.com/draco/versioned/decoders/1.5.6/",
@@ -37,9 +44,20 @@ export class Modelo {
 
         onLoad(model);
       },
-      undefined,
+      (xhr) => {
+        if (xhr.total > 0) onProgress?.(xhr.loaded / xhr.total);
+      },
       (err) => console.error(err),
     );
+  }
+
+  get rotationReady() {
+    return this._rotationReady;
+  }
+
+  startIntro(delay = 1) {
+    this.introEnabled = true;
+    this.delayRemaining = delay;
   }
 
   resize(camera: THREE.PerspectiveCamera) {
@@ -61,13 +79,33 @@ export class Modelo {
 
     if (this.progress >= 1) {
       this.object.position.y = this.targetY;
+    } else {
+      this.object.position.y = this.targetY + this.introOffset;
     }
   }
 
   update(delta: number) {
-    if (!this.object || this.progress >= 1) return;
-    this.progress = Math.min(1, this.progress + delta / INTRO_DURATION);
-    this.object.position.y =
-      this.targetY + this.introOffset * (1 - easeOutQuart(this.progress));
+    if (!this.object || !this.introEnabled) return;
+
+    if (this.progress < 1) {
+      if (this.delayRemaining > 0) {
+        this.delayRemaining = Math.max(0, this.delayRemaining - delta);
+        return;
+      }
+      this.progress = Math.min(1, this.progress + delta / INTRO_DURATION);
+      this.object.position.y =
+        this.targetY + this.introOffset * (1 - easeOutQuart(this.progress));
+      if (this.progress >= 1) {
+        this.rotationDelayRemaining = 0;
+      }
+    } else if (!this._rotationReady) {
+      this.rotationDelayRemaining = Math.max(
+        0,
+        this.rotationDelayRemaining - delta,
+      );
+      if (this.rotationDelayRemaining === 0) {
+        this._rotationReady = true;
+      }
+    }
   }
 }
