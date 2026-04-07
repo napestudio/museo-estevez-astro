@@ -8,14 +8,14 @@
 >
   <div
     id="loader-counter"
-    class="font-pt-mono font-bold text-black text-[clamp(3rem,18vw,68rem)] leading-none"
+    class="font-pt-mono font-bold text-black text-[clamp(8rem,18vw,68rem)] leading-none"
   >
     100
   </div>
 </div>
 
 <script>
-  import { gsap } from "../lib/gsap";
+  import { gsap, ScrollTrigger } from "../lib/gsap";
 
   const loader = document.getElementById("loader") as HTMLDivElement;
   const counter = document.getElementById("loader-counter") as HTMLSpanElement;
@@ -79,6 +79,9 @@
               document.body.classList.remove("overflow-hidden");
               window.dispatchEvent(new CustomEvent("loader:done"));
               loader.remove();
+              requestAnimationFrame(() => {
+                ScrollTrigger.refresh();
+              });
             },
           });
         },

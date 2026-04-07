@@ -11,6 +11,8 @@ export class Modelo {
   private progress = 0;
   private introEnabled = false;
   private delayRemaining = 0;
+  private rotationDelayRemaining = 0;
+  private _rotationReady = false;
   private intrinsicHeight: number | null = null;
   private targetY = 0;
   private introOffset = 0;
@@ -49,6 +51,10 @@ export class Modelo {
     );
   }
 
+  get rotationReady() {
+    return this._rotationReady;
+  }
+
   startIntro(delay = 1) {
     this.introEnabled = true;
     this.delayRemaining = delay;
@@ -79,13 +85,27 @@ export class Modelo {
   }
 
   update(delta: number) {
-    if (!this.object || !this.introEnabled || this.progress >= 1) return;
-    if (this.delayRemaining > 0) {
-      this.delayRemaining = Math.max(0, this.delayRemaining - delta);
-      return;
+    if (!this.object || !this.introEnabled) return;
+
+    if (this.progress < 1) {
+      if (this.delayRemaining > 0) {
+        this.delayRemaining = Math.max(0, this.delayRemaining - delta);
+        return;
+      }
+      this.progress = Math.min(1, this.progress + delta / INTRO_DURATION);
+      this.object.position.y =
+        this.targetY + this.introOffset * (1 - easeOutQuart(this.progress));
+      if (this.progress >= 1) {
+        this.rotationDelayRemaining = 0;
+      }
+    } else if (!this._rotationReady) {
+      this.rotationDelayRemaining = Math.max(
+        0,
+        this.rotationDelayRemaining - delta,
+      );
+      if (this.rotationDelayRemaining === 0) {
+        this._rotationReady = true;
+      }
     }
-    this.progress = Math.min(1, this.progress + delta / INTRO_DURATION);
-    this.object.position.y =
-      this.targetY + this.introOffset * (1 - easeOutQuart(this.progress));
   }
 }
