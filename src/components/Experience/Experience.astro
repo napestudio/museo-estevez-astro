@@ -111,8 +111,11 @@
     const height = wrapper.clientHeight;
 
     if (width === lastWidth) {
-      // iOS nav bar hide/show only changes height — resize canvas but keep
-      // camera aspect and model layout stable to avoid a blink
+      // iOS nav bar hide/show — only height changes.
+      // visibleHeight (fov + dist based) is constant, so model.resize is a no-op.
+      // Just sync renderer and camera projection to avoid stretch.
+      camera.aspect = width / height;
+      camera.updateProjectionMatrix();
       renderer.setSize(width, height, false);
       return;
     }
