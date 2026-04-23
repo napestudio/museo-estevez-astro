@@ -22,9 +22,11 @@
 
   const obj = { value: 0 };
 
+  const initialCounterTop = counter.getBoundingClientRect().top;
+
   const updateCounter = () => {
     counter.textContent = Math.floor(obj.value).toString();
-    gsap.set(counter, { y: -(obj.value / 100) * window.innerHeight * 0.5 });
+    gsap.set(counter, { y: -(obj.value / 100) * initialCounterTop });
   };
 
   // Baseline: animate 0 → 80 over 2.5s in case XHR total is unavailable
