@@ -21,7 +21,8 @@ const bigImage =
 
   function updateMargin() {
     if (section && footer) {
-      section.style.marginBottom = footer.getBoundingClientRect().height + "px";
+      section.style.marginBottom =
+        footer.getBoundingClientRect().height - 2 + "px";
     }
   }
 
