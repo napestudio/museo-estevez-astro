@@ -66,13 +66,13 @@ export class Modelo {
     const visibleHeight =
       2 * Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)) * dist;
 
-    const coverage = camera.aspect >= 1 ? 0.75 : 0.45;
+    const coverage = camera.aspect >= 1 ? 0.75 : 0.4;
     this.object.scale.setScalar(
       (visibleHeight * coverage) / this.intrinsicHeight,
     );
 
     this.targetY =
-      camera.aspect >= 1 ? -visibleHeight * 0.52 : -visibleHeight * 0.05;
+      camera.aspect >= 1 ? -visibleHeight * 0.52 : -visibleHeight * -0.02;
     this.introOffset = -visibleHeight;
     this.cameraTravel =
       camera.aspect >= 1 ? visibleHeight * 3 : visibleHeight * 1.15;
